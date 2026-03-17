@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "../modules/printer_queue.h"
 #include "../modules/utils.h"

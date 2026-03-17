@@ -1,10 +1,8 @@
-import time
 import os
-import sys
+import time
 
 QUEUE_FILE = "data/printer_queue.txt"
-
-previous_queue = []
+PRINTING_FILE = "data/printing_status.txt"
 
 
 def read_queue():
@@ -22,46 +20,54 @@ def read_queue():
     return jobs
 
 
-def draw(queue, printing=None):
+def read_printing():
+    if not os.path.exists(PRINTING_FILE):
+        return None
 
-    os.system("cls" if os.name == "nt" else "clear")
+    with open(PRINTING_FILE, "r") as f:
+        line = f.readline().strip()
+
+    if not line:
+        return None
+
+    parts = line.split()
+    if len(parts) >= 2:
+        return f"{parts[0]}:{parts[1]}"
+
+    return None
+
+
+def draw_system(printing, queue):
+    os.system("clear")
 
     print("\n=========== PRINTER SYSTEM ===========\n")
 
     if printing:
-        print("Printer Status:")
-        print(f"[ PRINTING ]  →  [{printing}]")
+        print(f"Printing: {printing}")
         print()
 
-    if queue:
-        visual = " → ".join([f"[{job}]" for job in queue])
-        print("Waiting Queue:")
-        print(visual)
+        print("Printing", end="", flush=True)
+        for _ in range(5):
+            time.sleep(0.5)
+            print(".", end="", flush=True)
+        print("\n")
     else:
-        print("Waiting Queue: Empty")
+        print("Printing: None\n")
+
+    print("Waiting Queue:")
+
+    if queue:
+        for job in queue:
+            print(f"- {job}")
+    else:
+        print("Empty")
 
     print("\n======================================\n")
 
 
-while True:
+printing = read_printing()
+queue = read_queue()
 
-    current_queue = read_queue()
+draw_system(printing, queue)
 
-    # detect job printed
-    if len(previous_queue) > len(current_queue):
-
-        finished_job = previous_queue[0]
-
-        draw(current_queue, finished_job)
-
-        time.sleep(1.5)
-
-    draw(current_queue)
-
-    previous_queue = current_queue
-
-    time.sleep(1)
-
-    print("\nVisualization complete. Closing in 5 seconds...")
-    time.sleep(5)
-    sys.exit()
+time.sleep(3)

@@ -17,3 +17,17 @@ hij added content to file: t.txt
 hij accessed file: t.txt
 hij removed file: disha.txt
 Deadlock simulation run: SYSTEM SAFE for 4 processes
+Disha added print job: gfvbhjmygtfg
+Disha added print job: ghfntygc
+Disha printed file: ghfntygc
+Disha printed file: ghfntygc
+Disha printed file: ghfntygc
+Disha added print job: fdrgfcghytjrhdf
+Disha added print job: gfdxhg
+Disha added print job: cxdfvsxcgh
+Disha printed file: cxdfvsxcgh
+Disha added print job: hhjghfgdc
+Disha added print job: gjyh
+Disha printed file: gjyh
+Disha printed file: gjyh
+Disha printed file: gjyh
