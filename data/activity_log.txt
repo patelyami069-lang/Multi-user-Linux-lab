@@ -1,0 +1,26 @@
+Disha added assignment.pdf to print queue
+Disha accessed lab_notes.txt
+Disha added report.pdf to printer queue
+Disha printed report.pdf
+Disha added report.pdf to printer queue
+Disha added lab.notes.txt to printer queue
+Disha printed report.pdf
+Disha printed lab.notes.txt
+Disha added report.pdf to printer queue
+Disha added assignment.txt to printer queue
+Disha printed report.pdf
+Disha printed assignment.txt
+Disha added report.pdf to printer queue
+Disha printed report.pdf
+abc accessed lab_notes.txt
+abc accessed lab_notes.txt
+Disha accessed lab_notes.txt
+Disha accessed project_data.txt
+Disha accessed assignment.txt
+Disha accessed assignment.txt
+Disha accessed assignment.txt
+Disha accessed project_data.txt
+Disha accessed project_data.txt
+Disha removed disha.txt
+Disha removed disha.txt
+Disha removed disha.txt

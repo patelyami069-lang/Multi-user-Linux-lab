@@ -1,75 +1,97 @@
 import os
-import subprocess
-from concepts.concepts import show_concepts
-from quiz.quiz import start_quiz
-from auth.login import register, login
+from auth.login import login, register
+from modules.printer_queue import printer_menu
+from modules.shared_files import file_menu
+from modules.deadlock import deadlock_demo
+from modules.dashboard import show_dashboard
 
+def clear():
+    os.system('cls' if os.name == "nt" else "clear")
 
-def main_menu():
+def main_menu(user):
     while True:
-        print("\n===== OS Learning Tool =====")
-        print("1. Learn OS Concepts")
-        print("2. CPU Scheduling Simulation")
-        print("3. Take Quiz")
-        print("4. Logout")
 
-        choice = input("Enter your choice: ")
+        clear()
+        print("\n===== Linux Lab Management System =====")
+        print("1. System Dashboard")
+        print("2. Print File")
+        print("3. Manage Shared Files")
+        print("4. Share New File")
+        print("5. View Activity Log")
+        print("6. Deadlock Simulation")
+        print("7. Logout")
+
+        choice = input("Enter choice: ")
 
         if choice == "1":
-            show_concepts()
+            show_dashboard(user)
+            input("\nPress Enter to continue...")
 
         elif choice == "2":
-            print("\n===== CPU Scheduling Simulation =====")
-            print("1. FCFS")
-            print("2. SJF")
-            print("3. Back")
-
-            algo = input("Choose scheduling algorithm: ")
-
-            if algo == "1":
-                os.system("compiled\\fcfs.exe")  # run FCFS simulation
-
-            elif algo == "2":
-                os.system("compiled\\sjf.exe")   # run SJF simulation
-
-            elif algo == "3":
-                break
-
-            else:
-                print("Invalid choice!")
+            printer_menu(user)
 
         elif choice == "3":
-            start_quiz()
+            file_menu(user)
 
         elif choice == "4":
+            new_file = input("Enter file name to share: ")
+
+            if new_file.strip() != "":
+                with open("data/shared_files.txt", "a") as f:
+                    f.write(new_file + "\n")
+
+                print("File shared successfully!")
+            else:
+                print("Invalid file name!")
+
+            input("\nPress Enter to continue...")
+
+        elif choice == "5":
+
+            print("\n===== Your Activity Log =====\n")
+
+            found = False
+
+            with open("data/activity_log.txt", "r") as f:
+                for line in f:
+                    if user in line:
+                        print(line.strip())
+                        found = True
+
+            if not found:
+                print("No activity yet.")
+
+            input("\nPress Enter to continue...")
+
+        elif choice == "6":
+            deadlock_demo()
+            input("\nPress Enter to continue...")
+
+        elif choice == "7":
             print("Logging out...")
             break
 
         else:
-            print("Invalid choice!")
-
+            print("Invalid choice")
 
 while True:
-    print("\n===== OS Learning Tool =====")
+
+    clear()
+
+    print("\n===== LAB SYSTEM =====")
     print("1. Register")
     print("2. Login")
     print("3. Exit")
 
-    choice = input("Enter choice: ")
+    ch = input("Choice: ")
 
-    if choice == "1":
+    if ch == "1":
         register()
 
-    elif choice == "2":
+    elif ch == "2":
         user = login()
-
         if user:
-            print("Welcome", user)
-            main_menu()   # go to main system after login
+            main_menu(user)
 
-    elif choice == "3":
-        print("Exiting program...")
+    elif ch == "3":
         break
-
-    else:
-        print("Invalid choice")

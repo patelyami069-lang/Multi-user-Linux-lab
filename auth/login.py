@@ -1,36 +1,37 @@
+import os
+
 def register():
-    username = input("Enter new username: ")
+    username = input("Enter username: ")
     password = input("Enter password: ")
 
-    with open("data/users.txt", "r") as file:
-        users = file.readlines()
+    # Check if user already exists
+    with open("data/users.txt", "r") as f:
+        for line in f:
+            u, p = line.strip().split(",")
 
-    for user in users:
-        u, p = user.strip().split()
+            if u == username:
+                print("Username already exists!")
+                return
 
-        if username == u:
-            print("Username already exists!")
-            return
+    # If not found, save new user
+    with open("data/users.txt", "a") as f:
+        f.write(username + "," + password + "\n")
 
-    with open("data/users.txt", "a") as file:
-        file.write(username + " " + password + "\n")
-
-    print("Registration successful!")
+    print("Registration successful")
 
 
 def login():
+
     username = input("Username: ")
     password = input("Password: ")
 
-    with open("data/users.txt", "r") as file:
-        users = file.readlines()
+    with open("data/users.txt","r") as f:
+        for line in f:
+            u,p = line.strip().split(",")
 
-    for user in users:
-        u, p = user.strip().split()
+            if username == u and password == p:
+                print("Login successful")
+                return username
 
-        if username == u and password == p:
-            print("Login successful!")
-            return username
-
-    print("Invalid username or password.")
+    print("Invalid credentials")
     return None
