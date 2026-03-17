@@ -6,7 +6,11 @@
 
 void clear_screen()
 {
-    system("cls");
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
 }
 
 void pause_screen()

@@ -31,13 +31,13 @@ void add_print_job(const char user[])
 
 void process_print_job()
 {
-    FILE *fp;
-    FILE *temp;
-
-    char user[50], file[100], logmsg[200];
+    FILE *fp, *temp, *status;
+    char user[50], file[100];
     int first = 1;
+    int found = 0;
+    char logmsg[200];
 
-    fp = fopen("data/printer_queue.txt","r");
+    fp = fopen("data/printer_queue.txt", "r");
 
     if(fp == NULL)
     {
@@ -45,28 +45,55 @@ void process_print_job()
         return;
     }
 
-    temp = fopen("data/temp.txt","w");
+    temp = fopen("data/temp.txt", "w");
 
-    while(fscanf(fp,"%s %s", user, file) != EOF)
+    if(temp == NULL)
+    {
+        fclose(fp);
+        printf("Error creating temp file\n");
+        return;
+    }
+
+    while(fscanf(fp, "%s %s", user, file) != EOF)
     {
         if(first)
         {
-            printf("Printing: %s for %s\n", file, user);
             first = 0;
-            sprintf(logmsg, "%s printed file: %s", user, file);
-            log_activity(logmsg);
+            found = 1;
+
+            status = fopen("data/printing_status.txt", "w");
+            if(status != NULL)
+            {
+                fprintf(status, "%s %s\n", user, file);
+                fclose(status);
+            }
         }
         else
         {
-            fprintf(temp,"%s %s\n", user, file);
+            fprintf(temp, "%s %s\n", user, file);
         }
     }
 
     fclose(fp);
     fclose(temp);
 
+    if(!found)
+    {
+        printf("Queue empty\n");
+        return;
+    }
+
     remove("data/printer_queue.txt");
-    rename("data/temp.txt","data/printer_queue.txt");
+    rename("data/temp.txt", "data/printer_queue.txt");
+
+    system("python3 visualization/visualizer.py");
+
+    sprintf(logmsg, "%s printed file: %s", user, file);
+    log_activity(logmsg);
+
+    status = fopen("data/printing_status.txt", "w");
+    if(status != NULL)
+        fclose(status);
 }
 
 void view_queue()
