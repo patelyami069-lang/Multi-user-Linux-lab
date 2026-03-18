@@ -125,6 +125,55 @@ void view_queue()
     fclose(fp);
 }
 
+void semaphore_demo()
+{
+    int semaphore;
+    int n;
+    char users[20][50];
+    char logmsg[200];
+
+    printf("\n===== Semaphore-Based Printer Allocation =====\n");
+
+    printf("Enter semaphore value for printer (1 = free, 0 = busy): ");
+    scanf("%d", &semaphore);
+
+    printf("Enter number of users requesting printer: ");
+    scanf("%d", &n);
+
+    for(int i = 0; i < n; i++)
+    {
+        printf("Enter user %d name: ", i + 1);
+        scanf("%s", users[i]);
+    }
+
+    printf("\n===== Allocation Result =====\n");
+
+    for(int i = 0; i < n; i++)
+    {
+        sprintf(logmsg, "%s requested printer", users[i]);
+        log_activity(logmsg);
+
+        if(semaphore == 1)
+        {
+            printf("%s -> Printer allocated\n", users[i]);
+
+            sprintf(logmsg, "%s got printer allocation", users[i]);
+            log_activity(logmsg);
+
+            semaphore = 0;
+        }
+        else
+        {
+            printf("%s -> Printer busy, waiting...\n", users[i]);
+
+            sprintf(logmsg, "%s waiting because printer is busy", users[i]);
+            log_activity(logmsg);
+        }
+    }
+
+    printf("\nFinal Semaphore Value: %d\n", semaphore);
+}
+
 void printer_menu(const char user[])
 {
     int choice;
@@ -136,7 +185,8 @@ void printer_menu(const char user[])
         printf("1. Add Print Job\n");
         printf("2. Process Next Job\n");
         printf("3. View Queue\n");
-        printf("4. Back to Main Menu\n");
+        printf("4. Semaphore Allocation\n");
+        printf("5. Back to Main Menu\n");
 
         printf("Choice: ");
         scanf("%d",&choice);
@@ -159,6 +209,11 @@ void printer_menu(const char user[])
                 break;
 
             case 4:
+                semaphore_demo();
+                pause_screen();
+                break;
+
+            case 5:
                 return;
 
             default:

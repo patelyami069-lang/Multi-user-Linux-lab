@@ -54,7 +54,6 @@ void lab_menu(char user[])
         else if(ch == 6)
         {
             printf("Logging out...\n");
-            pause_screen();
             clear_screen();
             break;
         }

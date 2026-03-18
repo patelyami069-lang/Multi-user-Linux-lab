@@ -31,3 +31,13 @@ Disha added print job: gjyh
 Disha printed file: gjyh
 Disha printed file: gjyh
 Disha printed file: gjyh
+Disha requested printer
+Disha got printer allocation
+Riya requested printer
+Riya waiting because printer is busy
+abc requested printer
+abc waiting because printer is busy
+Disha requested printer
+Disha waiting because printer is busy
+abc requested printer
+abc waiting because printer is busy
